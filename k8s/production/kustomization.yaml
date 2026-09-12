@@ -4,9 +4,8 @@ kind: Kustomization
 resources:
   - ../base
 
-# Override specific production properties or image tags here
+# Using official Drupal image
 images:
   - name: drupal
-    newName: ghcr.io/glauciolabs/drupal-app
-    newTag: php8.5-fpm-alpine3.24
-
+    newName: drupal
+    newTag: 10-fpm-alpine
