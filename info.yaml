@@ -1,0 +1,5 @@
+app:
+  name: drupal
+  version: v1.0.0
+  project: drupal-app
+  namespace: drupal-app
