@@ -1,0 +1,11 @@
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+
+resources:
+  - ../base
+
+# Override specific production properties or image tags here
+images:
+  - name: drupal
+    newName: ghcr.io/glauciolabs/drupal-app
+    newTag: php8.5-fpm-alpine3.24
