@@ -25,3 +25,4 @@ spec:
     kind: ClusterIssuer
   dnsNames:
     - drupal.glauciolabs.work
+

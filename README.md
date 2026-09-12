@@ -1,2 +1,0 @@
-# drupal-app
-Drupal application
