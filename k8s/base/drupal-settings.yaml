@@ -16,7 +16,7 @@ data:
       'autoload' => 'core/modules/mysql/src/Driver/Database/mysql/',
     ];
 
-    $settings['hash_salt'] = md5(getenv('DRUPAL_DB_PASSWORD') . getenv('DRUPAL_DB_NAME'));
+    $settings['hash_salt'] = '8d92f7c6e1a4b35890c2e4f6a7b8c9d0e1f2a3b4c5d6e7f8a9b0c1d2e3f4a5b6';
     $settings['update_free_access'] = FALSE;
     $settings['container_yamls'][] = $app_root . '/' . $site_path . '/default.services.yml';
     $settings['file_scan_ignore_directories'] = [
@@ -25,3 +25,4 @@ data:
     ];
     $settings['entity_update_batch_size'] = 50;
     $settings['entity_update_backup'] = TRUE;
+    $settings['config_sync_directory'] = 'sites/default/files/config_sync';
