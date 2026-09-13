@@ -7,7 +7,7 @@ metadata:
     external-dns.alpha.kubernetes.io/target: "5bf6bf0d-fe5a-40fc-adf1-887f866992e3.cfargotunnel.com"
 spec:
   virtualhost:
-    fqdn: drupal.glauciolabs.work
+    fqdn: cybersec.glauciolabs.work
   routes:
     - conditions:
         - prefix: /
