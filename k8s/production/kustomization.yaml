@@ -8,4 +8,4 @@ resources:
 images:
   - name: drupal
     newName: drupal
-    newTag: 10-fpm-alpine
+    newTag: 10-apache
