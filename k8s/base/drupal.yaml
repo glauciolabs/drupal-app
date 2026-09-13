@@ -12,6 +12,16 @@ spec:
       labels:
         app: drupal
     spec:
+      affinity:
+        nodeAffinity:
+          requiredDuringSchedulingIgnoredDuringExecution:
+            nodeSelectorTerms:
+            - matchExpressions:
+              - key: kubernetes.io/hostname
+                operator: In
+                values:
+                - h89-1
+                - h89-2
       containers:
         - name: drupal
           image: drupal:10-fpm-alpine
@@ -47,10 +57,16 @@ spec:
             - name: drupal-settings
               mountPath: /opt/drupal/web/sites/default/settings.php
               subPath: settings.php
+            - name: drupal-files
+              mountPath: /opt/drupal/web/sites/default/files
       volumes:
         - name: drupal-settings
           configMap:
             name: drupal-settings
+        - name: drupal-files
+          hostPath:
+            path: /databases/drupal-files
+            type: DirectoryOrCreate
 ---
 apiVersion: v1
 kind: Service
@@ -63,4 +79,3 @@ spec:
       name: http
   selector:
     app: drupal
-
