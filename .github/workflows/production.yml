@@ -10,7 +10,10 @@ permissions:
 on:
   push:
     branches:
-      - master
+      - main
+      - release
+    tags:
+      - 'v*'
   workflow_dispatch:
     inputs:
       pipeline_mode:
