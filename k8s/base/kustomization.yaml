@@ -5,4 +5,5 @@ resources:
   #- secrets.yaml
   - mysql.yaml
   - drupal.yaml
+  - drupal-settings.yaml
   - httpproxy.yaml
