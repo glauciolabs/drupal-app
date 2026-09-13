@@ -44,7 +44,7 @@ spec:
       volumes:
         - name: mysql-persistent-storage
           hostPath:
-            path: /databases/drupal-mysql
+            path: /databases/drupal-app-production/drupal-mysql
             type: DirectoryOrCreate
 ---
 apiVersion: v1

@@ -65,7 +65,7 @@ spec:
             name: drupal-settings
         - name: drupal-files
           hostPath:
-            path: /databases/drupal-files
+            path: /databases/drupal-app-production/drupal-files
             type: DirectoryOrCreate
 ---
 apiVersion: v1
