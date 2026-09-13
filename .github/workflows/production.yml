@@ -39,8 +39,17 @@ jobs:
       gitops_engine: ${{ inputs.gitops_app || 'argocd' }}
       argocd_deployment_mode: kustomize
       argocd_application_manifest: ""
-      kustomization_overlay: false
-    secrets: inherit
+    secrets:
+      REGISTRY: ghcr.io
+      REGISTRY_USERNAME: ${{ github.repository_owner }}
+      REGISTRY_PASSWORD: ${{ github.token }}
+      GIT_REGISTRY_TOKEN: ${{ secrets.GIT_REGISTRY_TOKEN }}
+      SNYK_TOKEN: ${{ secrets.SNYK_TOKEN }}
+      ARGOCD_SERVER: ${{ secrets.ARGOCD_SERVER }}
+      ARGOCD_TOKEN: ${{ secrets.ARGOCD_TOKEN }}
+      GITOPS_SSH_PRIVATE_KEY: ${{ secrets.GITOPS_SSH_PRIVATE_KEY }}
+      CLUSTER_DEVELOP: ${{ secrets.CLUSTER_DEVELOP }}
+      CLUSTER_PRODUCTION: ${{ secrets.CLUSTER_PRODUCTION }}
 
   notify-telegram:
     name: Notify Telegram
