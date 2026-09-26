@@ -35,7 +35,7 @@ on:
 
 jobs:
   pipeline:
-    uses: glauciolabs/core-pipeline/.github/workflows/core-pipeline.yml@v1.0.0
+    uses: glauciolabs/core-pipeline/.github/workflows/core-pipeline.yml@develop
     with:
       workflow_type: containers
       pipeline_mode: ${{ inputs.pipeline_mode || 'deploy_only' }}
