@@ -1,0 +1,13 @@
+apiVersion: backstage.io/v1alpha1
+kind: Component
+metadata:
+  name: drupal
+  namespace: drupal-app
+  description: Drupal App
+  annotations:
+    backstage.io/version: "v1.0.0"
+    glauciolabs.com/archetype: "php"
+spec:
+  type: service
+  lifecycle: production
+  owner: drupal-app

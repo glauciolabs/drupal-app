@@ -1,0 +1,81 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: drupal
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: drupal
+  template:
+    metadata:
+      labels:
+        app: drupal
+    spec:
+      affinity:
+        nodeAffinity:
+          requiredDuringSchedulingIgnoredDuringExecution:
+            nodeSelectorTerms:
+            - matchExpressions:
+              - key: kubernetes.io/hostname
+                operator: In
+                values:
+                - h89-1
+                - h89-2
+      containers:
+        - name: drupal
+          image: drupal:10-fpm-alpine
+          ports:
+            - containerPort: 80
+              name: http
+          env:
+            - name: DRUPAL_DB_HOST
+              value: "drupal-mysql"
+            - name: DRUPAL_DB_NAME
+              valueFrom:
+                secretKeyRef:
+                  name: drupal-db-credentials
+                  key: MYSQL_DATABASE
+            - name: DRUPAL_DB_USER
+              valueFrom:
+                secretKeyRef:
+                  name: drupal-db-credentials
+                  key: MYSQL_USER
+            - name: DRUPAL_DB_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: drupal-db-credentials
+                  key: MYSQL_PASSWORD
+          resources:
+            requests:
+              cpu: 100m
+              memory: 256Mi
+            limits:
+              cpu: 500m
+              memory: 512Mi
+          volumeMounts:
+            - name: drupal-settings
+              mountPath: /opt/drupal/web/sites/default/settings.php
+              subPath: settings.php
+            - name: drupal-files
+              mountPath: /opt/drupal/web/sites/default/files
+      volumes:
+        - name: drupal-settings
+          configMap:
+            name: drupal-settings
+        - name: drupal-files
+          hostPath:
+            path: /dados/drupal-app-production/drupal-files
+            type: DirectoryOrCreate
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: drupal
+spec:
+  ports:
+    - port: 80
+      targetPort: 80
+      name: http
+  selector:
+    app: drupal
