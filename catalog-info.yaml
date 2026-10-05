@@ -6,7 +6,7 @@ metadata:
   description: Drupal App
   annotations:
     backstage.io/version: "v1.0.0"
-    glauciolabs.com/archetype: "php"
+    glauciolabs.com/archetype: "container"
 spec:
   type: service
   lifecycle: production

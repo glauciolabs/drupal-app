@@ -43,7 +43,6 @@ jobs:
       delivery_mode: declarative
       gitops_repo_url: 'git@github.com:glauciolabs/k8s-platform-templates.git'
       gitops_application_manifest_path: apps/drupal-app/develop/kustomization.yaml
-      snyk_test_override: all
     secrets: inherit
 
   notify-telegram:
