@@ -8,6 +8,7 @@ permissions:
   security-events: write
   packages: write
   id-token: write
+  actions: read
 
 on:
   push:
