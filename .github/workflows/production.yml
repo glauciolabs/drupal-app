@@ -39,11 +39,7 @@ jobs:
   pipeline:
     uses: glauciolabs/core-pipeline/.github/workflows/core-pipeline.yml@develop
     with:
-      workflow_type: containers
       pipeline_mode: ${{ inputs.pipeline_mode || 'build_and_push' }}
-      gitops_engine: ${{ inputs.gitops_app || 'argocd' }}
-      argocd_deployment_mode: kustomize
-      argocd_application_manifest: ""
     secrets:
       REGISTRY: ghcr.io
       REGISTRY_USERNAME: ${{ github.repository_owner }}
