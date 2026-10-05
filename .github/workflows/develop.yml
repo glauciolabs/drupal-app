@@ -8,7 +8,6 @@ permissions:
   security-events: write
   packages: write
   id-token: write
-  actions: read
 
 on:
   push:
@@ -42,7 +41,9 @@ jobs:
 
   notify-telegram:
     name: Notify Telegram
-    runs-on: ubuntu-latest
+    runs-on:
+      group: k8s-runners
+      labels: [self-hosted]
     needs: [pipeline]
     if: ${{ always() }}
     steps:
