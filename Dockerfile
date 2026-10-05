@@ -1,5 +1,5 @@
 # 1. Use explicit and deterministic tags with SHA256 digest
-FROM drupal:11.4.8-php8.5-fpm-alpine3.24@sha256:9510b38521f4a35cccfc1254f4055cce466176ad07d395b948e70671ff48a8fc
+FROM drupal:11.4.8-php8.5-fpm-alpine3.24@sha256:ce053e5fbd84f236cec759831cb53641160f47f52a41714eeab9cf25752727dd
 
 # 8. Use Metadata labels
 LABEL maintainer="glauciolabs"
