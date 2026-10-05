@@ -5,6 +5,7 @@ env:
 
 permissions:
   contents: write
+  security-events: write
   packages: write
 
 on:
@@ -35,7 +36,7 @@ jobs:
     uses: glauciolabs/core-pipeline/.github/workflows/core-pipeline.yml@develop
     with:
       workflow_type: containers
-      pipeline_mode: ${{ inputs.pipeline_mode || 'build_and_deploy' }}
+      pipeline_mode: ${{ inputs.pipeline_mode || 'deploy_only' }}
       gitops_engine: ${{ inputs.gitops_app || 'argocd' }}
       argocd_deployment_mode: kustomize
       argocd_application_manifest: ""

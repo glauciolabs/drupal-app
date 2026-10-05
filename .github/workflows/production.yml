@@ -5,6 +5,7 @@ env:
 
 permissions:
   contents: write
+  security-events: write
   packages: write
 
 on:
