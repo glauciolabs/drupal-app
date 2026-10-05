@@ -40,6 +40,9 @@ jobs:
       argocd_deployment_mode: kustomize
       argocd_application_manifest: ""
       kustomization_overlay: false
+      delivery_mode: declarative
+      gitops_repo_url: 'git@github.com:glauciolabs/k8s-platform-templates.git'
+      gitops_application_manifest_path: apps/drupal-app/develop/kustomization.yaml
     secrets: inherit
 
   notify-telegram:
