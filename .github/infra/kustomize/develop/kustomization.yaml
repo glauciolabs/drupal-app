@@ -4,8 +4,23 @@ kind: Kustomization
 resources:
   - ../base
 
-# Using official Drupal image
 images:
   - name: drupal
     newName: drupal
     newTag: 10-apache
+
+patches:
+  - target:
+      kind: Deployment
+      name: drupal-mysql
+    patch: |-
+      - op: replace
+        path: /spec/template/spec/volumes/0/hostPath/path
+        value: /databases/drupal-app-develop/drupal-mysql
+  - target:
+      kind: Deployment
+      name: drupal
+    patch: |-
+      - op: replace
+        path: /spec/template/spec/volumes/1/hostPath/path
+        value: /dados/drupal-app-develop/drupal-files

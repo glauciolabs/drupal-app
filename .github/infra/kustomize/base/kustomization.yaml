@@ -3,7 +3,7 @@ kind: Kustomization
 
 
 resources:
-  #- secrets.yaml
+  - secrets.yaml
   - mysql.yaml
   - drupal.yaml
   - drupal-settings.yaml
