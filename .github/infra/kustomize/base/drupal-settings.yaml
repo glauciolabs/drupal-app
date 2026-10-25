@@ -16,7 +16,7 @@ data:
       'autoload' => 'core/modules/mysql/src/Driver/Database/mysql/',
     ];
 
-    $settings['hash_salt'] = '8d92f7c6e1a4b35890c2e4f6a7b8c9d0e1f2a3b4c5d6e7f8a9b0c1d2e3f4a5b6';
+    $settings['hash_salt'] = getenv('DRUPAL_HASH_SALT');
     $settings['update_free_access'] = FALSE;
     $settings['container_yamls'][] = $app_root . '/' . $site_path . '/default.services.yml';
     $settings['file_scan_ignore_directories'] = [
