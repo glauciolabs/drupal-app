@@ -1,5 +1,5 @@
 # 1. Use explicit and deterministic tags with SHA256 digest
-FROM drupal:11.4.8-php8.5-apache-bookworm@sha256:dea8cf332565624cfa96df65500e3ee657d8223d206108f2c839c1505374cbaf
+FROM drupal:11.4.11-php8.5-apache-trixie@sha256:20b150d4c58412be014ef2b973938efddc43b79fd32e1c83670dc3598d44f101
 
 # 8. Use Metadata labels
 LABEL org.opencontainers.image.source="https://github.com/glauciolabs/drupal-app" \

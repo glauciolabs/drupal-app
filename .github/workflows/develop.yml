@@ -1,5 +1,8 @@
 name: Develop delivery
 
+env:
+  VERSION: 11.4.11
+
 on:
   push:
     branches: [develop]
@@ -39,7 +42,7 @@ jobs:
           context: .
           push: true
           platforms: linux/amd64,linux/arm64
-          tags: ghcr.io/glauciolabs/drupal-app:develop-${{ github.sha }}
+          tags: ghcr.io/glauciolabs/drupal-app:v${{ env.VERSION }}-develop.${{ github.run_number }}
           provenance: mode=max
           sbom: true
 
