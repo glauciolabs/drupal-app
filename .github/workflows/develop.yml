@@ -1,4 +1,4 @@
-name: Delivery
+name: Develop delivery
 
 on:
   push:
@@ -9,9 +9,19 @@ permissions:
   packages: write
 
 jobs:
-  delivery:
+  validate:
     if: "!contains(github.event.head_commit.message, '[skip ci]')"
     runs-on: self-hosted
+    steps:
+      - uses: actions/checkout@v4
+      - name: Validate Kustomize
+        run: kubectl kustomize .github/infra/kustomize/develop > /dev/null
+
+  build:
+    needs: validate
+    runs-on: self-hosted
+    outputs:
+      digest: ${{ steps.image.outputs.digest }}
     steps:
       - uses: actions/checkout@v4
       - uses: docker/setup-qemu-action@v3
@@ -29,26 +39,43 @@ jobs:
           context: .
           push: true
           platforms: linux/amd64,linux/arm64
-          tags: ghcr.io/glauciolabs/drupal-app:sha-${{ github.sha }}
+          tags: ghcr.io/glauciolabs/drupal-app:develop-${{ github.sha }}
           provenance: mode=max
           sbom: true
+
+  security:
+    needs: build
+    runs-on: self-hosted
+    steps:
+      - uses: actions/checkout@v4
       - name: Scan published image
-        run: snyk container test ghcr.io/glauciolabs/drupal-app@${{ steps.image.outputs.digest }} --file=Dockerfile --severity-threshold=high --fail-on=all
+        run: snyk container test ghcr.io/glauciolabs/drupal-app@${{ needs.build.outputs.digest }} --file=Dockerfile --severity-threshold=high --fail-on=all
+
+  deploy:
+    needs: [build, security]
+    runs-on: self-hosted
+    steps:
+      - uses: actions/checkout@v4
       - name: Update GitOps desired state
         env:
-          DIGEST: ${{ steps.image.outputs.digest }}
+          DIGEST: ${{ needs.build.outputs.digest }}
         run: |
           set -euo pipefail
           python3 - <<'PY'
           from pathlib import Path
           import os
+          import re
           path = Path('.github/infra/kustomize/develop/kustomization.yaml')
           text = path.read_text()
-          old = '    newName: drupal\n    newTag: 10-apache'
           new = f'    newName: ghcr.io/glauciolabs/drupal-app\n    digest: {os.environ["DIGEST"]}'
-          if old not in text:
+          text, replacements = re.subn(
+              r'    newName: (?:drupal|ghcr\.io/glauciolabs/drupal-app)\n(?:    (?:newTag|digest): .+\n?)?',
+              new + '\n',
+              text,
+          )
+          if replacements != 1:
               raise SystemExit('expected Drupal image configuration was not found')
-          path.write_text(text.replace(old, new))
+          path.write_text(text)
           PY
           git config user.name github-actions[bot]
           git config user.email 41898282+github-actions[bot]@users.noreply.github.com
