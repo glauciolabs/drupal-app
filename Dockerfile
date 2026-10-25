@@ -1,9 +1,9 @@
 # 1. Use explicit and deterministic tags with SHA256 digest
-FROM drupal:11.4.8-php8.5-fpm-alpine3.24@sha256:ce053e5fbd84f236cec759831cb53641160f47f52a41714eeab9cf25752727dd
+FROM drupal:11.4.8-php8.5-apache-bookworm@sha256:dea8cf332565624cfa96df65500e3ee657d8223d206108f2c839c1505374cbaf
 
 # 8. Use Metadata labels
-LABEL maintainer="glauciolabs"
-LABEL securitytxt="https://www.example.com/.well-known/security.txt"
+LABEL org.opencontainers.image.source="https://github.com/glauciolabs/drupal-app" \
+      org.opencontainers.image.description="Drupal application image"
 
 # Set NODE_ENV/APP_ENV if applicable for optimization
 ENV APP_ENV=production
@@ -15,16 +15,7 @@ WORKDIR /opt/drupal
 # Assuming there is a composer.json and source code, copy it
 # COPY --chown=www-data:www-data composer.json composer.lock ./
 
-# Change ownership of the drupal directories to a non-root user
-RUN chown -R www-data:www-data /opt/drupal \
-    && chown -R www-data:www-data /var/www/html
-
-# 4. Do not execute containers as root
-USER www-data
-
-# 5. Add a HEALTHCHECK instruction
+# The official Apache entrypoint manages its web-server process and privilege
+# drop. No package manager or build tooling is added to runtime.
 HEALTHCHECK --interval=30s --timeout=5s --start-period=30s --retries=3 \
-  CMD wget --quiet --tries=1 --spider http://localhost:9000/ || exit 1
-
-# Safely terminate applications (Exec form)
-CMD ["php-fpm"]
+  CMD php -r 'exit((int) !@file_get_contents("http://127.0.0.1/"));'
