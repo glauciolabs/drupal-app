@@ -6,8 +6,8 @@ resources:
 
 images:
   - name: drupal
-    newName: drupal
-    newTag: 10-apache
+    newName: ghcr.io/glauciolabs/drupal-app
+    digest: sha256:3bb13a8cd95295c6cb57574f7ff16e1748f3ea60114d5b33fe75fa62c22b4ac2
 
 patches:
   - target:
