@@ -7,8 +7,8 @@ resources:
 images:
   - name: drupal
     newName: ghcr.io/glauciolabs/drupal-app
-    newTag: v11.4.11-develop.50
-    digest: sha256:eabba719ae54151b843e6c46bbbcebca9cf947c52c7815ac67190cf821bfec6b
+    newTag: v11.4.11-develop.51
+    digest: sha256:ab4eea37859067c531cc388092cfe3b449676e56b974dacb4f714622615d7222
 
 patches:
   - target:
