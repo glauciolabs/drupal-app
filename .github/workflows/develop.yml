@@ -73,6 +73,7 @@ jobs:
       - name: Update GitOps desired state
         env:
           DIGEST: ${{ needs.build.outputs.digest }}
+          IMAGE_TAG: v${{ env.VERSION }}-develop.${{ github.run_number }}
         run: |
           set -euo pipefail
           python3 - <<'PY'
@@ -81,9 +82,13 @@ jobs:
           import re
           path = Path('.github/infra/kustomize/develop/kustomization.yaml')
           text = path.read_text()
-          new = f'    newName: ghcr.io/glauciolabs/drupal-app\n    digest: {os.environ["DIGEST"]}'
+          new = (
+              '    newName: ghcr.io/glauciolabs/drupal-app\n'
+              f'    newTag: {os.environ["IMAGE_TAG"]}\n'
+              f'    digest: {os.environ["DIGEST"]}'
+          )
           text, replacements = re.subn(
-              r'    newName: (?:drupal|ghcr\.io/glauciolabs/drupal-app)\n(?:    (?:newTag|digest): .+\n?)?',
+              r'    newName: (?:drupal|ghcr\.io/glauciolabs/drupal-app)\n(?:    (?:newTag|digest): .+\n?)*',
               new + '\n',
               text,
           )
